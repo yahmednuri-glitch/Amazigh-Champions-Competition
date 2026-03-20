@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أبطال الأمازيغ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #020617; color: white; margin: 0; padding: 0; overflow-x: hidden;}
+        
+        .epic-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(2, 6, 23, 0.7), rgba(2, 6, 23, 0.95)), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1080&auto=format&fit=crop');
+            background-size: cover; background-position: center; z-index: -1;
+        }
+
+        .neon-yaza {
+            font-size: 7rem; color: #7dd3fc;
+            text-shadow: 0 0 20px #0284c7, 0 0 40px #0ea5e9, 0 0 80px #0369a1; line-height: 1;
+        }
+
+        .gold-text {
+            background: linear-gradient(to right, #fef08a, #eab308, #ca8a04);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 10px rgba(234, 179, 8, 0.3));
+        }
+
+        .epic-btn {
+            background: linear-gradient(180deg, rgba(30, 58, 138, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+            backdrop-filter: blur(10px); border: 2px solid #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4), inset 0 0 20px rgba(59, 130, 246, 0.2);
+            color: white; transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .epic-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-20deg); transition: all 0.7s ease;
+        }
+        .epic-btn:hover::before { left: 200%; }
+        .epic-btn:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(59, 130, 246, 0.6), inset 0 0 20px rgba(59, 130, 246, 0.4); }
+        .epic-btn:active { transform: scale(0.95); }
+        
+        .epic-btn-gold { border-color: #eab308; box-shadow: 0 0 15px rgba(234, 179, 8, 0.4), inset 0 0 20px rgba(234, 179, 8, 0.2); }
+        .epic-btn-gold:hover { box-shadow: 0 0 25px rgba(234, 179, 8, 0.6), inset 0 0 20px rgba(234, 179, 8, 0.4); }
+        
+        .epic-btn-purple { border-color: #a855f7; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4), inset 0 0 20px rgba(168, 85, 247, 0.2); }
+        .epic-btn-purple:hover { box-shadow: 0 0 25px rgba(168, 85, 247, 0.6), inset 0 0 20px rgba(168, 85, 247, 0.4); }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes heroPop { 0% { transform: scale(0) translateY(50px); opacity: 0; } 50% { transform: scale(1.2) translateY(-20px); opacity: 1; } 80% { transform: scale(0.9) translateY(5px); opacity: 1; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+        @keyframes heroFadeOut { to { transform: scale(0) translateY(-50px); opacity: 0; } }
+        @keyframes starBurst { 0% { transform: scale(0) rotate(0deg); opacity: 1; } 100% { transform: scale(1.5) rotate(180deg) translate(var(--tx), var(--ty)); opacity: 0; } }
+        .hero-animate { animation: heroPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, heroFadeOut 0.4s ease-in 1.2s forwards; }
+    </style>
+</head>
+<body>
+
+<div class="epic-bg"></div>
+<div id="app-root" class="relative z-10"></div>
+
+<script id="database">
+const OWNER_NAME = "Nuri Yahmed";
+const getAudioUrl = (text) => text;
+
+const languageQuestions = [
+  { questionText: 'كيف نقول "مرحباً" باللغة الأمازيغية؟', pronounceAudio: getAudioUrl('أزولْ'), answerOptions: [{ text: 'أمان', tifinagh: 'ⴰⵎⴰⵏ', isCorrect: false }, { text: 'أزول', tifinagh: 'ⴰⵣⵓⵍ', isCorrect: true }, { text: 'أيوز', tifinagh: 'ⴰⵢⵓⵣ', isCorrect: false }, { text: 'تودرت', tifinagh: 'ⵜⵓⴷⵔⵜ', isCorrect: false }], explanation: 'كلمة "أزول" (ⴰⵣⵓⵍ) هي التحية الأشهر وتعني حرفياً "بجانب القلب".' },
+  { questionText: 'كم عدد حروف تيفيناغ الأساسية؟', pronounceAudio: getAudioUrl('تيفيناغْ'), answerOptions: [{ text: '28 حرف', isCorrect: false }, { text: '33 حرف', isCorrect: true }, { text: '26 حرف', isCorrect: false }, { text: '40 حرف', isCorrect: false }], explanation: 'تحتوي أبجدية تيفيناغ على 33 حرفاً أساسياً تمثل جميع أصوات اللغة الأمازيغية.' },
+  { questionText: 'ما هو رمز "الإنسان الحر" في حروف تيفيناغ؟', pronounceAudio: getAudioUrl('يازا'), answerOptions: [{ text: 'حرف الميم', tifinagh: 'ⵎ', isCorrect: false }, { text: 'حرف الزاي (يازا)', tifinagh: 'ⵣ', isCorrect: true }, { text: 'حرف التاء', tifinagh: 'ⵜ', isCorrect: false }, { text: 'حرف الراء', tifinagh: 'ⵔ', isCorrect: false }], explanation: 'حرف "يازا" (ⵣ) هو رمز الهوية والحرية، ويتوسط ألوان العلم الأمازيغي.' }
+];
+
+const historyQuestions = [
+  { questionText: 'ما لون العلم الأمازيغي الأساسي؟', pronounceAudio: getAudioUrl('أزولْ'), answerOptions: [{ text: 'أزرق وأحمر', isCorrect: false }, { text: 'أزرق وأصفر وأخضر', isCorrect: true }, { text: 'أحمر وأبيض', isCorrect: false }, { text: 'أسود وأبيض', isCorrect: false }], explanation: 'العلم الأمازيغي يتكون من ثلاثة ألوان: الأزرق والأصفر والأخضر، مع حرف يازا في المنتصف.' },
+  { questionText: 'ماذا تسمى الأرض التاريخية للأمازيغ في شمال إفريقيا؟', pronounceAudio: getAudioUrl('تامزغا'), answerOptions: [{ text: 'تامزغا', tifinagh: 'ⵜⴰⵎⴰⵣⵖⴰ', isCorrect: true }, { text: 'نوميديا', isCorrect: false }, { text: 'أدرار', isCorrect: false }, { text: 'تيغمرت', isCorrect: false }], explanation: 'تامزغا (ⵜⴰⵎⴰⵣⵖⴰ) هي الأرض التي تمتد من واحة سيوة شرقاً إلى جزر الكناري غرباً.' },
+  { questionText: 'ما هو أقدم نص مكتوب بحروف تيفيناغ معروف؟', pronounceAudio: getAudioUrl('تيفيناغْ'), answerOptions: [{ text: 'النقوش الليبية القديمة', isCorrect: true }, { text: 'الكتابات المصرية', isCorrect: false }, { text: 'النقوش الفينيقية', isCorrect: false }, { text: 'الكتابات الرومانية', isCorrect: false }], explanation: 'تعود أقدم النقوش بحروف تيفيناغ إلى النقوش الليبية القديمة التي تعود لآلاف السنين.' }
+];
+
+const nafusiQuestions = [
+  { questionText: 'كيف نقول "الماء" بلهجة جبل نفوسة؟', pronounceAudio: getAudioUrl('أمانْ'), answerOptions: [{ text: 'أمان', tifinagh: 'ⴰⵎⴰⵏ', isCorrect: true }, { text: 'أغروم', tifinagh: 'ⴰⵖⵔⵓⵎ', isCorrect: false }, { text: 'أكشوم', tifinagh: 'ⴰⴽⵛⵓⵎ', isCorrect: false }, { text: 'إسلمان', tifinagh: 'ⵉⵙⵍⵎⴰⵏ', isCorrect: false }], explanation: 'أمان (ⴰⵎⴰⵏ) تعني الماء، وهي أساس الحياة.' },
+  { questionText: 'ماذا تعني كلمة "أدرار"؟', pronounceAudio: getAudioUrl('أدرارْ'), answerOptions: [{ text: 'البحر', isCorrect: false }, { text: 'السماء', isCorrect: false }, { text: 'الجبل', isCorrect: true }, { text: 'الشجرة', isCorrect: false }], explanation: 'أدرار (ⴰⴷⵔⴰⵔ) تعني الجبل، مثل سلسلة جبال نفوسة الشامخة.' },
+  { questionText: 'كيف نقول "صباح الخير" بلهجة نالوت؟', pronounceAudio: getAudioUrl('تيفاوينْ'), answerOptions: [{ text: 'أزول', tifinagh: 'ⴰⵣⵓⵍ', isCorrect: false }, { text: 'تيفاوين', tifinagh: 'ⵜⵉⴼⴰⵡⵉⵏ', isCorrect: true }, { text: 'تيمنسيوين', tifinagh: 'ⵜⵉⵎⵏⵙⵉⵡⵉⵏ', isCorrect: false }, { text: 'تانميرت', tifinagh: 'ⵜⴰⵏⵎⵎⵉⵔⵜ', isCorrect: false }], explanation: 'تيفاوين (ⵜⵉⴼⴰⵡⵉⵏ) تقال في الصباح، بينما "تيمنسيوين" تقال كمساء الخير.' },
+  { questionText: 'ماذا تعني كلمة "ⵜⴰⵏⵎⵎⵉⵔⵜ" (تانميرت)؟', pronounceAudio: getAudioUrl('تانميرتْ'), answerOptions: [{ text: 'كيف حالك', isCorrect: false }, { text: 'نعم', isCorrect: false }, { text: 'شكراً', isCorrect: true }, { text: 'لا أعرف', isCorrect: false }], explanation: 'كلمة "تانميرت" تعبر عن الشكر والامتنان.' },
+  { questionText: 'كيف تنادي "أخي" بالنفوسية؟', pronounceAudio: getAudioUrl('رومو'), answerOptions: [{ text: 'رومو', tifinagh: 'ⵔⵓⵎⵓ', isCorrect: true }, { text: 'ولتمو', tifinagh: 'ⵡⵓⵍⵜⵎⵓ', isCorrect: false }, { text: 'بابا', tifinagh: 'ⴱⴰⴱⴰ', isCorrect: false }, { text: 'أول', tifinagh: 'ⵓⵍ', isCorrect: false }], explanation: 'أخي هي "رومو"، بينما أختي هي "ولتمو".' },
+  { questionText: 'ماذا تعني كلمة "تادرت" (ⵜⴰⴷⵔⵜ)؟', pronounceAudio: getAudioUrl('تادرتْ'), answerOptions: [{ text: 'الجبل', isCorrect: false }, { text: 'السماء', isCorrect: false }, { text: 'النار', isCorrect: false }, { text: 'البيت', isCorrect: true }], explanation: 'تادرت (ⵜⴰⴷⵔⵜ) تعني البيت، بينما "تامورت" تعني الأرض أو الوطن.' },
+  { questionText: 'كيف نقول "النار"؟', pronounceAudio: getAudioUrl('تيمسيْ'), answerOptions: [{ text: 'أمان', tifinagh: 'ⴰⵎⴰⵏ', isCorrect: false }, { text: 'تيمسي', tifinagh: 'ⵜⵉⵎⵙⵉ', isCorrect: true }, { text: 'توفوت', tifinagh: 'ⵜⵓⴼⵓⵜ', isCorrect: false }, { text: 'تزيري', tifinagh: 'ⵜⵣⵉⵔⵉ', isCorrect: false }], explanation: 'تيمسي (ⵜⵉⵎⵙⵉ) هي النار، وتوفوت هي الشمس، وتزيري هي القمر.' },
+  { questionText: 'ما هو "أغروم" (ⴰⵖⵔⵓⵎ) الذي لا غنى عنه في المائدة؟', pronounceAudio: getAudioUrl('أغرومْ'), answerOptions: [{ text: 'الملح', isCorrect: false }, { text: 'الحليب', isCorrect: false }, { text: 'الخبز', isCorrect: true }, { text: 'الزيت', isCorrect: false }], explanation: 'أغروم (ⴰⵖⵔⵓⵎ) هو الخبز الأساسي في كل وجبة.' },
+  { questionText: 'كيف نقول "الحليب" بلهجة نالوت؟', pronounceAudio: getAudioUrl('أكفايْ'), answerOptions: [{ text: 'دي', tifinagh: 'ⴷⵉ', isCorrect: false }, { text: 'ؤسم', tifinagh: 'ⵓⵙⵎ', isCorrect: false }, { text: 'أكفاي', tifinagh: 'ⴰⴽⴼⴰⵢ', isCorrect: true }, { text: 'تيسنت', tifinagh: 'ⵜⵉⵙⵏⵜ', isCorrect: false }], explanation: 'أكفاي (ⴰⴽⴼⴰⵢ) هو الحليب، بينما "ؤسم" هو اللحم.' },
+  { questionText: 'ما هو الرقم "اثنان" بالنفوسية؟', pronounceAudio: getAudioUrl('سّينْ'), answerOptions: [{ text: 'سّين', tifinagh: 'ⵙⵙⵉⵏ', isCorrect: true }, { text: 'ؤدجون', tifinagh: 'ⵓⴷⵊⵡⵏ', isCorrect: false }, { text: 'كراد', tifinagh: 'ⴽⵔⴰⴷ', isCorrect: false }, { text: 'أكوز', tifinagh: 'ⵓⴽⴽⵓⵣ', isCorrect: false }], explanation: 'سّين تعني 2، وؤدجون 1، وكراد 3، وأكوز 4.' },
+  { questionText: 'إذا سألك شخص: "ماني تدود؟" ⵎⴰⵏⵉ ⵜⴷⵓⴷ؟ ماذا يقصد؟', pronounceAudio: getAudioUrl('ماني تدودْ'), answerOptions: [{ text: 'كيف حالك؟', isCorrect: false }, { text: 'إلى أين أنت ذاهب؟', isCorrect: true }, { text: 'هل أنت بخير؟', isCorrect: false }, { text: 'ما اسمك؟', isCorrect: false }], explanation: 'هذا السؤال يستخدم للاستفسار عن الوجهة (إلى أين تذهب؟).' },
+  { questionText: 'كيف تقول "لا أعرف"؟', pronounceAudio: getAudioUrl('أولسنغشْ'), answerOptions: [{ text: 'أولسنغش', tifinagh: 'ⵡⵍ ⵙⵏⵖⵛ', isCorrect: true }, { text: 'لاباس', tifinagh: 'ⵍⴰⴱⴰⵙ', isCorrect: false }, { text: 'اها', tifinagh: 'ⴰⵀⴰ', isCorrect: false }, { text: 'ماتوليد', tifinagh: 'ⵎⴰⵜⵓⵍⵉⴷ', isCorrect: false }], explanation: 'عبارة "أولسنغش" (ⵡⵍ ⵙⵏⵖⵛ) تستخدم لنفي المعرفة بالشيء.' },
+  { questionText: 'ماذا تعني كلمة "ⵜⵉⵟⵟ" (تيط) في أعضاء الجسم؟', pronounceAudio: getAudioUrl('تيطْ'), answerOptions: [{ text: 'الأذن', isCorrect: false }, { text: 'العين', isCorrect: true }, { text: 'الأنف', isCorrect: false }, { text: 'القدم', isCorrect: false }], explanation: 'تيط (ⵜⵉⵟⵟ) تعني العين، وجمعها تيطاوين.' },
+  { questionText: 'ما هو العضو الذي نطلق عليه اسم "أول" (ⵓⵍ)؟', pronounceAudio: getAudioUrl('أولْ'), answerOptions: [{ text: 'القلب', isCorrect: true }, { text: 'الرأس', isCorrect: false }, { text: 'الفم', isCorrect: false }, { text: 'الرجل', isCorrect: false }], explanation: 'أول (ⵓⵍ) تعني القلب، وهو مصدر المشاعر. أما الرأس فهو (إيغف).' },
+  { questionText: 'كيف نقول "اليوم" باللغة النفوسية؟', pronounceAudio: getAudioUrl('أسْ'), answerOptions: [{ text: 'إيض', isCorrect: false }, { text: 'أسّ', tifinagh: 'ⴰⵙⵙ', isCorrect: true }, { text: 'جتشا', isCorrect: false }, { text: 'زيك', isCorrect: false }], explanation: 'أسّ (ⴰⵙⵙ) تعني اليوم، بينما إيض تعني الليل، وجتشا تعني غداً.' },
+  { questionText: 'ما هي الشجرة المباركة التي تسمى "تازمّورت" (ⵜⴰⵣⵎⵎⵓⵔⵜ)؟', pronounceAudio: getAudioUrl('تازمّورتْ'), answerOptions: [{ text: 'شجرة النخيل', isCorrect: false }, { text: 'شجرة التين', isCorrect: false }, { text: 'شجرة الزيتون', isCorrect: true }, { text: 'شجرة اللوز', isCorrect: false }], explanation: 'تازمّورت هي شجرة الزيتون، أما التينة فتسمى تمطشيت، والتمر يسمى تيني.' },
+  { questionText: 'إذا قيل لك "أمان ن أنزار"، فما هو هذا الماء؟', pronounceAudio: getAudioUrl('أمانْ ن أنزارْ'), answerOptions: [{ text: 'ماء البحر', isCorrect: false }, { text: 'ماء البئر', isCorrect: false }, { text: 'ماء النهر', isCorrect: false }, { text: 'ماء المطر', isCorrect: true }], explanation: 'أنزار (ⴰⵏⵥⴰⵔ) يعني المطر، فأمان ن أنزار هو ماء المطر.' },
+  { questionText: 'ما هي "تاحريت" (ⵜⴰⵃⵔⵉⵢⵜ) في الثقافة النفوسية؟', pronounceAudio: getAudioUrl('تاحريتْ'), answerOptions: [{ text: 'الرداء التقليدي', isCorrect: true }, { text: 'القبعة (الشاشية)', isCorrect: false }, { text: 'الحذاء', isCorrect: false }, { text: 'المفتاح', isCorrect: false }], explanation: 'تاحريت هي الرداء النفوسي التقليدي، بينما تاغونيت هي القبعة، وإركاس هو الحذاء.' },
+  { questionText: 'كيف تطلب من شخص أن "يتكلم"؟', pronounceAudio: getAudioUrl('أوتلايْ'), answerOptions: [{ text: 'كرز', isCorrect: false }, { text: 'أطص', isCorrect: false }, { text: 'أوتلاي', tifinagh: 'ⵓⵜⵍⴰⵢ', isCorrect: true }, { text: 'أف', isCorrect: false }], explanation: 'أوتلاي (ⵓⵜⵍⴰⵢ) تعني تكلّم، بينما أطص تعني نَم، وكرز تعني احرث.' },
+  { questionText: 'إذا كان الجو "إيسمّيض" (ⵉⵙⵎⵎⵉⴹ)، فكيف يكون؟', pronounceAudio: getAudioUrl('إيسمّيضْ'), answerOptions: [{ text: 'حار جداً', isCorrect: false }, { text: 'بارد', isCorrect: true }, { text: 'قاسي ويابس', isCorrect: false }, { text: 'معتدل', isCorrect: false }], explanation: 'إيسمّيض تعني بارد، أما حار فتعني "إيرغا"، ويابس تعني "إيقّور".' },
+  { questionText: 'ما هو عكس كلمة "مقر" (كبير) بالنفوسية؟', pronounceAudio: getAudioUrl('مششكْ'), answerOptions: [{ text: 'إيرغا', isCorrect: false }, { text: 'مششك', tifinagh: 'ⵎⵛⵛⴽ', isCorrect: true }, { text: 'إيسميض', isCorrect: false }, { text: 'إيقور', isCorrect: false }], explanation: 'مقر تعني (كبير) وعكسها مششك التي تعني (صغير).' }
+];
+
+const listeningQuestions = [
+  { questionText: 'استمع للكلمة السّرية جيداً، ماذا تعني؟', pronounceAudio: getAudioUrl('أزولْ'), answerOptions: [{ text: 'مرحباً', isCorrect: true }, { text: 'شكراً', isCorrect: false }, { text: 'كيف حالك', isCorrect: false }, { text: 'لا أعرف', isCorrect: false }], explanation: 'الكلمة التي سمعتها هي "أزول" وتعني مرحباً.' },
+  { questionText: 'استمع للكلمة السّرية جيداً، ماذا تعني؟', pronounceAudio: getAudioUrl('أمانْ'), answerOptions: [{ text: 'النار', isCorrect: false }, { text: 'الماء', isCorrect: true }, { text: 'الجبل', isCorrect: false }, { text: 'الأرض', isCorrect: false }], explanation: 'الكلمة التي سمعتها هي "أمان" وتعني الماء.' },
+  { questionText: 'استمع للكلمة السّرية جيداً، ماذا تعني؟', pronounceAudio: getAudioUrl('تانميرتْ'), answerOptions: [{ text: 'نعم', isCorrect: false }, { text: 'الخبز', isCorrect: false }, { text: 'شكراً', isCorrect: true }, { text: 'إلى أين', isCorrect: false }], explanation: 'الكلمة التي سمعتها هي "تانميرت" وتعني شكراً.' },
+  { questionText: 'استمع للكلمة السّرية جيداً، ماذا تعني؟', pronounceAudio: getAudioUrl('تيمسيْ'), answerOptions: [{ text: 'الشمس', isCorrect: false }, { text: 'القمر', isCorrect: false }, { text: 'الماء', isCorrect: false }, { text: 'النار', isCorrect: true }], explanation: 'الكلمة التي سمعتها هي "تيمسي" وتعني النار.' },
+  { questionText: 'استمع للكلمة السّرية جيداً، ماذا تعني؟', pronounceAudio: getAudioUrl('أغرومْ'), answerOptions: [{ text: 'اللحم', isCorrect: false }, { text: 'الخبز', isCorrect: true }, { text: 'الحليب', isCorrect: false }, { text: 'الملح', isCorrect: false }], explanation: 'الكلمة التي سمعتها هي "أغروم" وتعني الخبز.' },
+  { questionText: 'استمع للكلمة السّرية جيداً، ماذا تعني؟', pronounceAudio: getAudioUrl('تيطْ'), answerOptions: [{ text: 'الأذن', isCorrect: false }, { text: 'العين', isCorrect: true }, { text: 'الأنف', isCorrect: false }, { text: 'الرأس', isCorrect: false }], explanation: 'الكلمة التي سمعتها هي "تيط" وتعني العين.' },
+  { questionText: 'استمع للكلمة السّرية جيداً، ماذا تعني؟', pronounceAudio: getAudioUrl('أولْ'), answerOptions: [{ text: 'القلب', isCorrect: true }, { text: 'القدم', isCorrect: false }, { text: 'الفم', isCorrect: false }, { text: 'اليد', isCorrect: false }], explanation: 'الكلمة التي سمعتها هي "أول" وتعني القلب.' },
+  { questionText: 'استمع للكلمة السّرية جيداً، ماذا تعني؟', pronounceAudio: getAudioUrl('تازمّورتْ'), answerOptions: [{ text: 'شجرة الزيتون', isCorrect: true }, { text: 'شجرة النخيل', isCorrect: false }, { text: 'شجرة التين', isCorrect: false }, { text: 'شجرة اللوز', isCorrect: false }], explanation: 'الكلمة التي سمعتها هي "تازمّورت" وتعني شجرة الزيتون.' }
+];
+
+const wisdoms = [
+  "لن يفنى الأمازيغ، كما لن تنقرض الصقور في الأعالي. (ⵓⵔ ⵜⵜⵎⵎⴰⵜⵏ ⵉⵎⴰⵣⵉⵖⵏ، ⵎⴽⴷⴰ ⵓⵔ ⵜⵏⴳⴰⵔⵏ ⵉⴳⵉⴷⵔⵏ ⴳ ⵉⴳⵏⵏⴰ)",
+  "ما تجمعه النملة في عام، يبتلعه الجمل في لقمة واحدة. (ⴰⵢⵍⵍⵉ ⵜⵙⵎⵓⵏ ⵜⴰⵡⵜⵓⴼⵜ ⴳ ⵓⵙⴳⴳⵯⴰⵙ، ⵉⵙⵙⵉⴼⵉⵢ ⵜ ⵓⵍⵖⵎ ⴳ ⵢⴰⵜ ⵜⵉⴽⴽⵍⵜ)",
+  "من يسكن مع الضفادع، عليه أن يصبر على نقيقها. (ⵢⴰⵏ ⵉⵣⴷⵖⵏ ⴷ ⵉⵎⵇⵓⵔⵏ، ⴰⴷ ⵉⵙⴱⵔ ⵉ ⵡⴰⴳⴳⵓⵣ)",
+  "اليد التي أكلت (شبعت) لا تنسى. (ⴰⴼⵓⵙ ⵉⵛⵛⴰⵏ ⵓⵔ ⵉⵜⵜⵓ)",
+  "الجمل لا يرى سنامه. (ⵉⵙⵜⵏⵢ ⵓⵍⵖⵎ ⵜⴰⵡⵔⵉⵔⵜ ⵏⵏⵙ)",
+  "لا تغرف الماء من الشاطئ أو المكان الضحل. (ⴰⴷ ⵓⵔ ⵜⵜⴰⴳⵎⴷ ⴰⵎⴰⵏ ⴳ ⵓⴼⵜⵉⵙ)",
+  "الكلمة التي تخرج من القلب تصل إلى القلب. (ⴰⵡⴰⵍ ⵉⴼⴼⵖⵏ ⴳ ⵓⵍ ⴰⵔ ⵉⵜⵜⴽⵛⵎ ⴳ ⵓⵍ)",
+  "من لا يعرف أصله، لا يعرف طريقه. (ⵡⴰⵏⵏⴰ ⵓⵔ ⵉⵙⵙⵉⵏ ⴰⵥⵓⵔ ⵏⵏⵙ, ⵓⵔ ⵉⵙⵙⵉⵏ ⴰⴱⵔⵉⴷ ⵏⵏⵙ)",
+  "الحرية أغلى ما يملكه الإنسان الأمازيغي. (ⵜⵉⵍⵍⴻⵍⵉ ⵜⴳⴰ ⵜⴰⵢⴰⴼⵓⵜ ⵜⴰⵎⵓⵇⵔⴰⵏⵜ)",
+  "الماء هو الحياة، حافظ عليه. (ⴰⵎⴰⵏ ⵜⴳⴰ ⵜⵓⴷⴻⵔⵜ)",
+  "قطرة بقطرة يمتلئ الوادي. (ⵜⵉⵎⵇⵇⵉⵜ ⵙ ⵜⵉⵎⵇⵇⵉⵜ ⴰⵙ ⵉⵜⵜⴰⵛⴰⵔ ⵡⴰⵙⵉⴼ)",
+  "اليد الواحدة لا تصفق. (ⵢⴰⵜ ⵜⴼⵓⵙⵜ ⵓⵔ ⴰⴷ ⵜⵜⵇⵇⵕⵇⴰⴱ)"
+];
+</script>
+
+<script id="game-engine">
+const achievementsData = [
+  { id: 'first_quiz', name: 'البداية الأولى', description: 'أكمل أول مسابقة', icon: '🎯', points: 10 },
+  { id: 'language_master', name: 'خبير تيفيناغ', description: 'احصل على 100% في قسم اللغة', icon: '📘', points: 25 },
+  { id: 'history_master', name: 'مؤرخ تامزغا', description: 'احصل على 100% في قسم التاريخ', icon: '🌍', points: 50 },
+  { id: 'nafusi_master', name: 'ابن الجبل', description: 'احصل على 100% في معجم نفوسة', icon: '🏔️', points: 100 },
+  { id: 'wisdom_collector', name: 'جامع الحكم', description: 'اقرأ 10 حكم من حكم أمغار', icon: '📚', points: 30 },
+  { id: 'speed_demon', name: 'سريع البرق', description: 'أكمل مسابقة في أقل من دقيقة', icon: '⚡', points: 40 }
+];
+
+let stats = JSON.parse(localStorage.getItem('amazighGameStats')) || {
+  playerName: null,
+  totalQuizzes: 0, totalScore: 0, achievements: [], wisdomCount: 0, bestScore: 0, 
+  languageBest: 0, historyBest: 0, nafusiBest: 0, listeningBest: 0
+};
+let unlockedAchievements = JSON.parse(localStorage.getItem('amazighGameAchievements')) || [];
+
+let gameState = stats.playerName ? 'start' : 'welcome';
+let currentQuestionIndex = 0; let score = 0; let showExplanation = false; let selectedAnswer = null;
+let currentWisdomIndex = 0; let currentCategory = 'language'; let questionCount = 3;
+let timerInterval = null; const TIME_LIMIT = 15; let timeRemaining = TIME_LIMIT; let quizStartTime = 0;
+
+let lives = 3;
+
+function saveData() {
+  localStorage.setItem('amazighGameStats', JSON.stringify(stats));
+  localStorage.setItem('amazighGameAchievements', JSON.stringify(unlockedAchievements));
+}
+
+function getRank(points) {
+  if(points <= 20) return { title: 'رحّالة مبتدئ', icon: '🚶‍♂️', color: 'text-slate-300' };
+  if(points <= 50) return { title: 'فارس تامزغا', icon: '🐎', color: 'text-blue-300' };
+  if(points <= 100) return { title: 'حارس التراث', icon: '🛡️', color: 'text-green-400' };
+  return { title: 'أمغار (الحكيم)', icon: '👑', color: 'text-yellow-400' };
+}
+
+function savePlayerName() {
+  const input = document.getElementById('player-name-input');
+  const name = input.value.trim();
+  if(name.length > 1) { stats.playerName = name; saveData(); setGameState('start'); } 
+  else { input.classList.add('border-red-500', 'animate-pulse'); setTimeout(() => input.classList.remove('border-red-500', 'animate-pulse'), 1000); }
+}
+
+function resetPlayerName() {
+  if(confirm("هل تريد حقاً تغيير اسم البطل؟")) { stats.playerName = null; saveData(); setGameState('welcome'); }
+}
+
+function getQuestions() {
+  if (currentCategory === 'language') return languageQuestions;
+  if (currentCategory === 'history') return historyQuestions;
+  if (currentCategory === 'nafusi') return nafusiQuestions;
+  if (currentCategory === 'listening') return listeningQuestions;
+  return languageQuestions;
+}
+
+function playAudio(url) { new Audio(url).play().catch(()=>{}); }
+
+function speakText(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ar-SA'; utterance.rate = 0.85; 
+    window.speechSynthesis.speak(utterance);
+  } else { alert("عذراً، متصفحك لا يدعم النطق الصوتي."); }
+}
+
+function unlockAchievement(id) {
+  if (!unlockedAchievements.includes(id)) { unlockedAchievements.push(id); stats.achievements.push(id); saveData(); }
+}
+
+function startTimer() {
+  stopTimer(); timeRemaining = TIME_LIMIT; updateTimerUI();
+  timerInterval = setInterval(() => { timeRemaining -= 0.1; updateTimerUI(); if (timeRemaining <= 0) { stopTimer(); handleTimeOut(); } }, 100);
+}
+
+function stopTimer() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } }
+
+function updateTimerUI() {
+  const bar = document.getElementById('timer-bar'); const text = document.getElementById('timer-text');
+  if (bar && text) {
+    const percentage = (timeRemaining / TIME_LIMIT) * 100;
+    bar.style.width = `${Math.max(0, percentage)}%`; text.innerText = Math.ceil(timeRemaining);
+    if (timeRemaining <= 5) { bar.className = "h-full transition-all duration-100 ease-linear bg-red-500"; text.className = "text-xl font-black w-8 text-center text-red-500 animate-pulse"; } 
+    else if (timeRemaining <= 10) { bar.className = "h-full transition-all duration-100 ease-linear bg-yellow-500"; text.className = "text-xl font-black w-8 text-center text-white"; } 
+    else { bar.className = "h-full transition-all duration-100 ease-linear bg-cyan-400"; text.className = "text-xl font-black w-8 text-center text-white"; }
+  }
+}
+
+function handleTimeOut() {
+  if (selectedAnswer !== null) return;
+  selectedAnswer = -1;
+  lives--;
+  showExplanation = true; playAudio('https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3'); render();
+}
+
+function showHeroAnimation() {
+  const container = document.createElement('div');
+  container.className = 'fixed inset-0 pointer-events-none z-[100] flex items-center justify-center overflow-hidden';
+  let starsHtml = '';
+  for(let i = 0; i < 6; i++) {
+    const angle = (i * 60) * (Math.PI / 180); const tx = Math.cos(angle) * 120; const ty = Math.sin(angle) * 120;
+    starsHtml += `<svg class="absolute w-10 h-10 text-yellow-400 drop-shadow-lg" viewBox="0 0 24 24" fill="currentColor" style="top:50%; left:50%; margin-top:-20px; margin-left:-20px; --tx:${tx}px; --ty:${ty}px; animation: starBurst 0.8s ease-out forwards;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+  }
+  container.innerHTML = `<div class="relative flex items-center justify-center hero-animate"><div class="absolute inset-0">${starsHtml}</div><svg width="180" height="180" viewBox="0 0 200 200" class="drop-shadow-2xl z-10"><path d="M40 200 Q100 110 160 200 Z" fill="#2563eb" /><path d="M70 200 Q100 150 130 200 Z" fill="#eab308" /><text x="100" y="190" font-family="sans-serif" font-size="30" font-weight="900" fill="white" text-anchor="middle">ⵣ</text><circle cx="100" cy="80" r="45" fill="#fde68a" /><path d="M50 80 Q100 10 150 80 Q100 30 50 80 Z" fill="#1e293b" /><path d="M80 75 Q90 60 100 75" fill="none" stroke="#1e293b" stroke-width="5" stroke-linecap="round"/><path d="M100 75 Q110 60 120 75" fill="none" stroke="#1e293b" stroke-width="5" stroke-linecap="round"/><path d="M85 90 Q100 115 115 90" fill="none" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/><circle cx="75" cy="85" r="7" fill="#fca5a5" opacity="0.8"/><circle cx="125" cy="85" r="7" fill="#fca5a5" opacity="0.8"/></svg></div>`;
+  document.body.appendChild(container); setTimeout(() => { container.remove(); }, 1600);
+}
+
+function setGameState(state) { if (gameState === 'quiz') stopTimer(); gameState = state; render(); }
+function startGameSettings() { setGameState('menu'); }
+function startQuiz() { 
+    currentQuestionIndex = 0; score = 0; lives = 3; 
+    showExplanation = false; selectedAnswer = null; quizStartTime = Date.now(); 
+    unlockAchievement('first_quiz'); setGameState('quiz'); 
+}
+function startWisdom() { let newIndex; do { newIndex = Math.floor(Math.random() * wisdoms.length); } while (newIndex === currentWisdomIndex && wisdoms.length > 1); currentWisdomIndex = newIndex; stats.wisdomCount++; if (stats.wisdomCount >= 10) unlockAchievement('wisdom_collector'); saveData(); setGameState('wisdom'); }
+
+function handleAnswer(isCorrect, index) {
+  if (selectedAnswer !== null) return;
+  selectedAnswer = index; stopTimer();
+  
+  if (isCorrect) { 
+      score++; 
+      playAudio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3'); 
+      showHeroAnimation(); 
+  } else { 
+      lives--;
+      playAudio('https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3'); 
+  }
+  showExplanation = true; render();
+}
+
+function nextQuestion() {
+  const questions = getQuestions(); const maxQ = Math.min(questionCount, questions.length);
+  
+  if (lives <= 0 || currentQuestionIndex + 1 >= maxQ) {
+    playAudio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3');
+    stats.totalQuizzes++; stats.totalScore += score; stats.bestScore = Math.max(stats.bestScore, score);
+    const totalDuration = (Date.now() - quizStartTime) / 1000; if (totalDuration < 60) unlockAchievement('speed_demon');
+    if (currentCategory === 'language') { stats.languageBest = Math.max(stats.languageBest, score); if (score === maxQ) unlockAchievement('language_master'); } 
+    else if (currentCategory === 'history') { stats.historyBest = Math.max(stats.historyBest, score); if (score === maxQ) unlockAchievement('history_master'); } 
+    else if (currentCategory === 'nafusi') { stats.nafusiBest = Math.max(stats.nafusiBest, score); if (score === maxQ) unlockAchievement('nafusi_master'); } 
+    else if (currentCategory === 'listening') { stats.listeningBest = Math.max(stats.listeningBest, score); }
+    saveData(); setGameState('end');
+  } else {
+    currentQuestionIndex++; showExplanation = false; selectedAnswer = null; render();
+  }
+}
+
+function changeCategory(cat) { currentCategory = cat; render(); }
+function changeQuestionCount(amount) { const max = getQuestions().length; questionCount = Math.max(1, Math.min(max, questionCount + amount)); render(); }
+
+function render() {
+  const root = document.getElementById('app-root'); let html = '';
+
+  if (gameState === 'welcome') {
+    html = `
+      <div class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="max-w-md w-full glass-panel rounded-[2.5rem] p-10 text-center relative overflow-hidden">
+          <div class="relative z-10">
+            <div class="neon-yaza mb-4">ⵣ</div>
+            <h1 class="text-4xl font-black mb-4 tracking-tight gold-text">أهلاً بك يا بطل!</h1>
+            <p class="text-blue-200 font-medium mb-8 leading-relaxed">لتبدأ رحلتك في استكشاف ثقافة وتراث تامزغا، أخبرنا ما هو اسمك؟</p>
+            <div class="mb-8">
+              <input type="text" id="player-name-input" placeholder="اسم البطل..." class="w-full bg-slate-900/80 border-2 border-cyan-500/50 text-white text-center text-xl font-bold py-4 rounded-2xl focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-all placeholder:text-slate-500">
+            </div>
+            <button onclick="savePlayerName()" class="epic-btn w-full py-5 rounded-2xl text-xl font-black flex items-center justify-center gap-3">
+              <i data-lucide="rocket"></i> انطلق الآن
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  else if (gameState === 'start') {
+    const rank = getRank(stats.totalScore);
+    html = `
+      <div class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="max-w-md w-full glass-panel rounded-[2.5rem] p-8 text-center relative overflow-hidden">
+            
+            <div class="bg-gradient-to-r from-slate-900/90 to-blue-900/50 border border-blue-500/30 rounded-2xl p-4 mb-6 flex flex-row items-center justify-between cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.5)]" onclick="resetPlayerName()">
+                <div class="text-right">
+                    <p class="text-sm text-blue-200 mb-1">أزول، <span class="text-white font-black text-lg">${stats.playerName}</span> 👋</p>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">${rank.icon}</span>
+                        <span class="font-bold text-sm ${rank.color}">${rank.title}</span>
+                    </div>
+                </div>
+                <div class="bg-blue-950 border border-blue-500/50 rounded-xl px-4 py-2 text-center shadow-[inset_0_0_10px_rgba(59,130,246,0.3)]">
+                    <div class="text-[10px] text-blue-300 font-bold">النقاط</div>
+                    <div class="text-xl font-black gold-text">${stats.totalScore}</div>
+                </div>
+            </div>
+
+            <div class="neon-yaza mb-2 mt-4">ⵣ</div>
+            <h1 class="text-5xl font-black mb-2 tracking-tight gold-text">أبطال الأمازيغ</h1>
+            <p class="text-cyan-200 text-sm font-medium mb-10 flex items-center justify-center gap-2">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i> مشروع ${OWNER_NAME} للثقافة <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </p>
+            
+            <div class="flex flex-col gap-4 mb-2">
+              <button onclick="startGameSettings()" class="epic-btn w-full py-5 rounded-2xl text-xl font-bold flex items-center justify-center gap-3">
+                <i data-lucide="sparkles" class="text-cyan-300"></i> اختر تحدي اليوم
+              </button>
+              <button onclick="startWisdom()" class="epic-btn epic-btn-gold w-full py-5 rounded-2xl text-xl font-bold flex items-center justify-center gap-3">
+                <i data-lucide="book-open" class="text-yellow-300"></i> حكم أمغار الحكيم
+              </button>
+              <button onclick="setGameState('stats')" class="epic-btn epic-btn-purple w-full py-5 rounded-2xl text-xl font-bold flex items-center justify-center gap-3">
+                <i data-lucide="bar-chart-3" class="text-purple-300"></i> إحصائياتي والإنجازات
+              </button>
+            </div>
+        </div>
+      </div>
+    `;
+  } 
+  else if (gameState === 'menu') {
+    const maxQ = getQuestions().length;
+    if(questionCount > maxQ) questionCount = maxQ;
+    html = `
+      <div class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="max-w-md w-full glass-panel rounded-[2.5rem] p-8 border-2 border-cyan-500/30">
+          <div class="text-center mb-8">
+            <i data-lucide="compass" class="mx-auto text-cyan-400 mb-4 w-14 h-14 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]"></i>
+            <h2 class="text-3xl font-black mb-2 gold-text">خريطة التحديات</h2>
+          </div>
+          <div class="space-y-6">
+            <div>
+              <div class="grid grid-cols-1 gap-3">
+                <button onclick="changeCategory('language')" class="py-3 px-4 rounded-xl font-bold flex items-center gap-3 transition-all ${currentCategory === 'language' ? 'bg-blue-600/80 border-2 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.4)] scale-[1.02]' : 'bg-slate-800/60 border border-slate-600'}">
+                  <span class="text-2xl">📘</span> حروف تيفيناغ واللغة
+                </button>
+                <button onclick="changeCategory('history')" class="py-3 px-4 rounded-xl font-bold flex items-center gap-3 transition-all ${currentCategory === 'history' ? 'bg-blue-600/80 border-2 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.4)] scale-[1.02]' : 'bg-slate-800/60 border border-slate-600'}">
+                  <span class="text-2xl">🌍</span> التاريخ والهوية
+                </button>
+                <button onclick="changeCategory('nafusi')" class="py-3 px-4 rounded-xl font-bold flex items-center gap-3 transition-all ${currentCategory === 'nafusi' ? 'bg-blue-600/80 border-2 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.4)] scale-[1.02]' : 'bg-slate-800/60 border border-slate-600'}">
+                  <span class="text-2xl">🏔️</span> معجم نفوسة
+                </button>
+                <button onclick="changeCategory('listening')" class="py-3 px-4 rounded-xl font-bold flex items-center gap-3 transition-all ${currentCategory === 'listening' ? 'bg-purple-600/80 border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)] scale-[1.02]' : 'bg-slate-800/60 border border-slate-600'}">
+                  <span class="text-2xl">🎧</span> تحدي الاستماع الخفي
+                </button>
+              </div>
+            </div>
+            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
+              <label class="block text-sm font-bold mb-3 text-cyan-300 text-center">حدد عدد الأسئلة</label>
+              <div class="flex items-center justify-between">
+                <button onclick="changeQuestionCount(-1)" class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg font-bold text-xl">−</button>
+                <span class="text-3xl font-black gold-text">${questionCount}</span>
+                <button onclick="changeQuestionCount(1)" class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg font-bold text-xl">+</button>
+              </div>
+            </div>
+            <div class="flex flex-col gap-3 pt-2">
+              <button onclick="startQuiz()" class="epic-btn w-full py-4 rounded-xl text-xl font-bold flex items-center justify-center gap-2">
+                <i data-lucide="play"></i> ابدأ التحدي الآن
+              </button>
+              <button onclick="setGameState('start')" class="w-full py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-xl font-bold flex items-center justify-center gap-2">
+                العودة للمعسكر
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  else if (gameState === 'quiz') {
+    const questions = getQuestions();
+    const currentQ = questions[currentQuestionIndex];
+    const totalQ = Math.min(questionCount, questions.length);
+    
+    let heartsHtml = '';
+    for(let i=0; i<3; i++) {
+        const isFilled = i < lives;
+        heartsHtml += `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="${isFilled ? '#ef4444' : 'none'}" stroke="${isFilled ? '#ef4444' : '#475569'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-all duration-300 ${isFilled ? 'drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]' : 'opacity-50'}"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`;
+    }
+
+    let optionsHtml = currentQ.answerOptions.map((opt, index) => {
+      let style = "bg-slate-900/60 border border-slate-600 hover:bg-slate-800/80 hover:border-cyan-400";
+      if (selectedAnswer !== null) {
+        if (opt.isCorrect) style = "bg-green-900/80 border-2 border-green-400 text-green-300 shadow-[0_0_15px_rgba(74,222,128,0.3)]";
+        else if (index === selectedAnswer) style = "bg-red-900/80 border-2 border-red-500 text-red-300";
+        else style = "opacity-40 border-transparent cursor-not-allowed";
+      }
+      return `
+        <button ${selectedAnswer !== null ? 'disabled' : ''} onclick="handleAnswer(${opt.isCorrect}, ${index})" class="p-5 rounded-[1.5rem] transition-all flex flex-col items-center justify-center gap-2 min-h-[120px] ${style}">
+          <span class="text-lg font-bold text-white">${opt.text}</span>
+          ${opt.tifinagh ? `<span class="text-4xl font-black text-cyan-400 drop-shadow-md">${opt.tifinagh}</span>` : ''}
+        </button>
+      `;
+    }).join('');
+
+    let catIcon = currentCategory === 'language' ? '📘 تيفيناغ' : currentCategory === 'history' ? '🌍 تاريخ' : currentCategory === 'nafusi' ? '🏔️ نفوسة' : '🎧 استماع';
+
+    html = `
+      <div class="min-h-screen flex flex-col items-center p-4 pt-8">
+        
+        <div class="w-full max-w-2xl flex items-center justify-between glass-panel p-3 rounded-2xl mb-6">
+          <button onclick="setGameState('start')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg border border-slate-600"><i data-lucide="home"></i></button>
+          
+          <div class="flex gap-1" dir="ltr">
+            ${heartsHtml}
+          </div>
+
+          <div class="epic-btn-gold w-12 h-12 rounded-full flex items-center justify-center font-black text-xl border-2 bg-slate-900">${score}</div>
+        </div>
+
+        <div class="w-full max-w-2xl glass-panel rounded-[2.5rem] border-t-2 border-cyan-500/50 overflow-hidden relative">
+          <div class="bg-slate-950/80 p-4 border-b border-slate-700 flex items-center gap-4 ${showExplanation ? 'opacity-50' : ''}">
+              <i data-lucide="timer" class="${showExplanation ? 'text-slate-500' : 'text-cyan-400'}"></i>
+              <div class="flex-1 bg-slate-900 rounded-full h-3 overflow-hidden border border-slate-700 shadow-inner">
+                  <div id="timer-bar" class="h-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]" style="width: 100%"></div>
+              </div>
+              <div id="timer-text" class="text-xl font-black w-8 text-center text-white">${Math.ceil(timeRemaining)}</div>
+          </div>
+
+          <div class="p-8 md:p-10 text-center">
+            <div class="text-center mb-4">
+                <span class="inline-block text-xs text-cyan-400 uppercase font-black tracking-widest bg-slate-900 px-3 py-1 rounded-lg border border-slate-700">${catIcon} - السؤال ${currentQuestionIndex + 1} من ${totalQ}</span>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-black mb-8 leading-relaxed gold-text drop-shadow-md">${currentQ.questionText}</h2>
+            
+            <button onclick="speakText('${currentQ.pronounceAudio}')" class="flex items-center justify-center gap-3 epic-btn px-8 py-4 rounded-full font-bold mx-auto shadow-lg ${currentCategory === 'listening' && selectedAnswer === null ? 'animate-pulse text-xl epic-btn-purple' : 'text-lg'}">
+              <i data-lucide="volume-2" class="${currentCategory === 'listening' ? 'w-8 h-8' : ''}"></i> 
+              ${currentCategory === 'listening' ? 'استمع للكلمة السّرية' : 'استمع للنطق'}
+            </button>
+          </div>
+          <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-900/40">
+            ${optionsHtml}
+          </div>
+          ${showExplanation ? `
+            <div class="p-8 bg-slate-950/95 border-t-2 border-cyan-500/30 backdrop-blur-xl">
+              <div class="bg-slate-900 border border-slate-700 p-5 rounded-2xl mb-6 flex gap-3 items-start shadow-inner">
+                <i data-lucide="info" class="text-cyan-400 shrink-0 mt-1"></i>
+                <p class="text-slate-300 font-medium leading-relaxed">
+                  ${selectedAnswer === -1 ? '<span class="text-red-400 font-black block mb-2 border-b border-red-500/30 pb-2">انتهى الوقت!</span>' : ''}
+                  ${currentQ.explanation}
+                </p>
+              </div>
+              <button onclick="nextQuestion()" class="w-full epic-btn ${lives <= 0 ? 'epic-btn-purple' : ''} py-5 rounded-2xl text-xl font-black flex items-center justify-center gap-2">
+                ${lives <= 0 ? 'انتهت المحاولات - عرض النتيجة' : (currentQuestionIndex + 1 === totalQ ? 'عرض النتيجة' : 'السؤال التالي')} <i data-lucide="arrow-left"></i>
+              </button>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }
+  else if (gameState === 'wisdom') {
+    html = `
+      <div class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="max-w-md w-full glass-panel rounded-[2.5rem] p-10 border-2 border-yellow-500/40 text-center relative">
+          <i data-lucide="scroll-text" class="mx-auto text-yellow-400 mb-6 w-20 h-20 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]"></i>
+          <h2 class="text-3xl font-black mb-8 gold-text">حكم أمغار الحكيم</h2>
+          <div class="bg-slate-950/80 p-8 rounded-[2rem] border-r-4 border-yellow-500 mb-10 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
+            <p class="text-2xl font-bold leading-relaxed text-yellow-100">"${wisdoms[currentWisdomIndex]}"</p>
+          </div>
+          <div class="flex flex-col gap-4">
+            <button onclick="startWisdom()" class="epic-btn epic-btn-gold w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2">
+              <i data-lucide="refresh-cw"></i> استخرج حكمة أخرى
+            </button>
+            <button onclick="setGameState('start')" class="w-full py-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2">
+              <i data-lucide="home"></i> العودة للمعسكر
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  else if (gameState === 'stats') {
+    const rank = getRank(stats.totalScore);
+    const achievementsHtml = achievementsData.map(ach => {
+      const isUnlocked = unlockedAchievements.includes(ach.id);
+      return `
+        <div class="p-5 rounded-2xl transition-all ${isUnlocked ? 'bg-slate-800/80 border border-yellow-500/50 shadow-[0_0_15px_rgba(234,179,8,0.2)]' : 'bg-slate-900/60 border border-slate-800 opacity-50'}">
+          <div class="flex items-start gap-4">
+            <div class="text-4xl drop-shadow-md">${ach.icon}</div>
+            <div class="flex-1">
+              <h3 class="font-black text-lg mb-1 ${isUnlocked ? 'text-white' : 'text-slate-500'}">${ach.name}</h3>
+              <p class="text-xs text-slate-400 mb-2">${ach.description}</p>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold ${isUnlocked ? 'text-yellow-400' : 'text-slate-600'}">+${ach.points} نقطة</span>
+                <i data-lucide="${isUnlocked ? 'unlock' : 'lock'}" class="w-4 h-4 ${isUnlocked ? 'text-yellow-400' : 'text-slate-600'}"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    html = `
+      <div class="min-h-screen flex flex-col items-center p-6 py-10">
+        <div class="max-w-2xl w-full">
+          <button onclick="setGameState('start')" class="mb-6 flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-bold drop-shadow-md">
+            <i data-lucide="arrow-left"></i> العودة
+          </button>
+          
+          <div class="glass-panel rounded-[2.5rem] p-8 border-2 border-cyan-500/40 mb-8 flex flex-col md:flex-row items-center gap-6">
+            <div class="w-24 h-24 bg-slate-900 rounded-full flex items-center justify-center text-5xl shadow-[0_0_20px_rgba(34,211,238,0.4)] border-4 border-cyan-500">${rank.icon}</div>
+            <div class="text-center md:text-right flex-1">
+                <h3 class="text-cyan-300 text-sm mb-1 uppercase tracking-widest">السجل الأسطوري لـ</h3>
+                <h2 class="text-4xl font-black gold-text mb-3">${stats.playerName}</h2>
+                <div class="inline-block bg-slate-900/80 px-5 py-2 rounded-full border border-slate-600 font-bold ${rank.color}">الرتبة: ${rank.title}</div>
+            </div>
+            <div class="text-center bg-slate-900/90 p-5 rounded-2xl border-2 border-yellow-500/50 min-w-[130px] shadow-[inset_0_0_15px_rgba(234,179,8,0.2)]">
+                <div class="text-sm text-yellow-200 mb-1">النقاط الكلية</div>
+                <div class="text-5xl font-black text-yellow-400">${stats.totalScore}</div>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-[2.5rem] p-8 border border-slate-600 mb-8">
+            <h2 class="text-2xl font-black mb-6 text-center text-white">تفاصيل التفوق</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div class="bg-slate-900/80 p-5 rounded-2xl text-center border border-slate-700">
+                <div class="text-3xl font-black text-cyan-400">${stats.totalQuizzes}</div>
+                <div class="text-xs text-slate-400 mt-2">معارك مكتملة</div>
+              </div>
+              <div class="bg-slate-900/80 p-5 rounded-2xl text-center border border-slate-700">
+                <div class="text-3xl font-black text-yellow-400">${stats.bestScore}</div>
+                <div class="text-xs text-slate-400 mt-2">أعلى ضربة</div>
+              </div>
+              <div class="bg-slate-900/80 p-5 rounded-2xl text-center border border-slate-700">
+                <div class="text-3xl font-black text-blue-400">${stats.languageBest}</div>
+                <div class="text-xs text-slate-400 mt-2">قوة (اللغة)</div>
+              </div>
+              <div class="bg-slate-900/80 p-5 rounded-2xl text-center border border-slate-700">
+                <div class="text-3xl font-black text-orange-400">${stats.historyBest}</div>
+                <div class="text-xs text-slate-400 mt-2">قوة (التاريخ)</div>
+              </div>
+              <div class="bg-slate-900/80 p-5 rounded-2xl text-center border border-slate-700">
+                <div class="text-3xl font-black text-green-400">${stats.nafusiBest}</div>
+                <div class="text-xs text-slate-400 mt-2">قوة (نفوسة)</div>
+              </div>
+              <div class="bg-slate-900/80 p-5 rounded-2xl text-center border border-slate-700">
+                <div class="text-3xl font-black text-purple-400">${stats.listeningBest || 0}</div>
+                <div class="text-xs text-slate-400 mt-2">قوة (الاستماع)</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="glass-panel rounded-[2.5rem] p-8 border border-yellow-500/30">
+            <h2 class="text-2xl font-black mb-6 text-center gold-text">الكنوز والأوسمة</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${achievementsHtml}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  else if (gameState === 'end') {
+    const totalQ = Math.min(questionCount, getQuestions().length);
+    const percentage = Math.round((score / totalQ) * 100);
+    
+    let messageHtml = '';
+    if (lives <= 0) {
+        messageHtml = `<div class="bg-red-900/40 border-2 border-red-500 rounded-2xl p-5 mb-8 shadow-[0_0_20px_rgba(239,68,68,0.3)]"><div class="text-5xl mb-3 drop-shadow-lg">💔</div><p class="font-black text-xl text-red-300">انتهت المحاولات، لا تيأس!</p></div>`;
+    } else if (percentage === 100) {
+        messageHtml = `<div class="bg-yellow-900/40 border-2 border-yellow-400 rounded-2xl p-5 mb-8 shadow-[0_0_20px_rgba(234,179,8,0.3)]"><div class="text-5xl mb-3 drop-shadow-lg">🏆</div><p class="font-black text-xl text-yellow-300">أداء أسطوري يا ${stats.playerName}!</p></div>`;
+    } else if (percentage >= 80) {
+        messageHtml = `<div class="bg-green-900/40 border-2 border-green-400 rounded-2xl p-5 mb-8"><div class="text-5xl mb-3 drop-shadow-lg">⭐</div><p class="font-black text-xl text-green-300">أداء ممتاز يا بطل!</p></div>`;
+    } else if (percentage >= 60) {
+        messageHtml = `<div class="bg-blue-900/40 border-2 border-blue-400 rounded-2xl p-5 mb-8"><div class="text-5xl mb-3 drop-shadow-lg">🌟</div><p class="font-black text-xl text-blue-300">أداء جيد، استمر!</p></div>`;
+    } else {
+        messageHtml = `<div class="bg-slate-800/80 border-2 border-slate-500 rounded-2xl p-5 mb-8"><div class="text-5xl mb-3 drop-shadow-lg">💪</div><p class="font-bold text-xl text-slate-300">التدريب يصنع الأبطال!</p></div>`;
+    }
+
+    html = `
+      <div class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="max-w-md w-full glass-panel rounded-[3rem] p-10 border-t-4 border-yellow-500 text-center">
+          <h2 class="text-3xl font-black mb-8 text-white">نتيجة المعركة</h2>
+          <div class="text-7xl font-black mb-4 gold-text drop-shadow-lg">${score} <span class="text-4xl text-slate-400">/ ${totalQ}</span></div>
+          <div class="text-2xl font-bold text-cyan-400 mb-8 tracking-widest">${percentage}%</div>
+          ${messageHtml}
+          <div class="flex flex-col gap-4 mb-6">
+            <button onclick="startQuiz()" class="epic-btn py-4 rounded-2xl font-bold flex items-center justify-center gap-2">
+              <i data-lucide="refresh-cw"></i> خض المعركة مجدداً
+            </button>
+            <button onclick="setGameState('start')" class="w-full py-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors text-white">
+              <i data-lucide="home"></i> العودة للمعسكر
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  root.innerHTML = html;
+  lucide.createIcons();
+  if (gameState === 'quiz' && !showExplanation) startTimer();
+}
+
+setTimeout(() => {
+  if (gameState === 'welcome') { const input = document.getElementById('player-name-input'); if(input) input.focus(); }
+}, 100);
+
+render();
+</script>
+</body>
+</html>
